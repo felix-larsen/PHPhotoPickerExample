@@ -12,7 +12,7 @@ struct CustomPhotoPickerView: UIViewControllerRepresentable {
         
     @Binding var selectedImage: UIImage?
     @Binding var date: Date?
-    @Binding var location: CLLocationCoordinate2D?
+    @Binding var location: CLLocationCoordinate2D
     
     @Environment(\.presentationMode) var presentationMode
     
@@ -46,7 +46,9 @@ struct CustomPhotoPickerView: UIViewControllerRepresentable {
                 let assetResults = PHAsset.fetchAssets(withLocalIdentifiers: [assetId], options: nil)
                 DispatchQueue.main.async {
                     self.parent.date = assetResults.firstObject?.creationDate
-                    self.parent.location = assetResults.firstObject?.location?.coordinate
+                    if let coordinate  = assetResults.firstObject?.location?.coordinate {
+                        self.parent.location = coordinate
+                    }
                 }
             }
             if imageResult.itemProvider.canLoadObject(ofClass: UIImage.self) {
@@ -71,6 +73,6 @@ struct CustomPhotoPickerView: UIViewControllerRepresentable {
 
 struct CustomPhotoPicker_Previews: PreviewProvider {
     static var previews: some View {
-        CustomPhotoPickerView(selectedImage: Binding.constant(nil), date: Binding.constant(nil), location: Binding.constant(nil))
+        CustomPhotoPickerView(selectedImage: Binding.constant(nil), date: Binding.constant(nil), location: Binding.constant(CLLocationCoordinate2D(latitude: 2.0, longitude: 2.0)))
     }
 }

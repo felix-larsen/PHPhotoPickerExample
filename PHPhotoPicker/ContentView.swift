@@ -6,33 +6,81 @@
 //
 
 import SwiftUI
-import PhotosUI
+import MapKit
 
 struct ContentView: View {
+    static let dateFormat: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        return formatter
+    }()
+    
     @State var showSheet = false
     @State var selectedImage: UIImage?
     @State var date: Date?
-    @State var location: CLLocationCoordinate2D?
+    @State var region = MKCoordinateRegion(
+        center: CLLocationCoordinate2D(
+            latitude: 20.0,
+            longitude: 20.0),
+        latitudinalMeters: .init(10000),
+        longitudinalMeters: .init(10000))
     
     var body: some View {
-        VStack {
-            Button("Select Image!") {
-                showSheet.toggle()
+        let regionWithOffset = Binding<MKCoordinateRegion>(
+        get: {
+            let offsetCenter = CLLocationCoordinate2D(latitude: region.center.latitude + region.span.latitudeDelta * 0.30, longitude: region.center.longitude)
+            return MKCoordinateRegion(
+                center: offsetCenter,
+                span: region.span)
+            },
+            set: {
+                $0
             }
-            .padding()
-            if let image = selectedImage {
-                Image(uiImage: image)
-                    .resizable()
-                    .frame(width: 200, height: 200)
+        )
+        return ZStack {
+            Map(coordinateRegion: regionWithOffset,
+                interactionModes: MapInteractionModes.all,
+                showsUserLocation: false,
+                annotationItems: [region.center]) {
+                l in
+                MapPin(coordinate: l)
             }
-            if let date = date {
-                Text("Creation date: \(date)")
+            VStack {
+                if let date = date {
+                    Text("\(date, formatter: Self.dateFormat)")
+                        .padding(8)
+                        .background(LinearGradient(gradient: Gradient(colors: [Color.black.opacity(0.9), Color.black.opacity(0.7)]), startPoint: .top, endPoint: .bottom))
+                        .cornerRadius(10.0)
+                        .foregroundColor(.white)
+                        .padding(8)
+                    
+                }
+                if let image = selectedImage {
+                    Image(uiImage: image)
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .clipShape(Circle())
+                        .overlay(Circle().stroke(Color.white, lineWidth: 4))
+                        .shadow(radius: 10)
+                        .padding(8)
+                }
+                Spacer()
+                Button(action: {
+                    showSheet.toggle()
+                }) {
+                    Image(systemName: "photo")
+                    
+                }
+                .frame(width: 50, height: 50)
+                .background(Color.white)
+                .clipShape(Circle())
+                .shadow(radius: 10)
+                .padding()
             }
-            if let location = location {
-                Text("Location: latitude \(location.latitude) longitude \(location.longitude)")
-            }
+            
+            
         }.sheet(isPresented: $showSheet) {
-            CustomPhotoPickerView(selectedImage: $selectedImage, date: $date, location: $location)
+            CustomPhotoPickerView(selectedImage: $selectedImage, date: $date, location: $region.center)
         }
     }
 }
@@ -40,5 +88,24 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
+    }
+}
+
+extension CLLocationCoordinate2D: Identifiable, Hashable, Equatable {
+    public var id: Int {
+        return hashValue
+    }
+    
+    public func hash(into hasher: inout Hasher)  {
+        hasher.combine(latitude)
+        hasher.combine(longitude)
+    }
+    
+    public static func ==(lhs: CLLocationCoordinate2D, rhs: CLLocationCoordinate2D) -> Bool {
+        return lhs.longitude == rhs.longitude && lhs.latitude == rhs.latitude
+    }
+
+    public static func <(lhs: CLLocationCoordinate2D, rhs: CLLocationCoordinate2D) -> Bool {
+        return lhs.longitude < rhs.longitude
     }
 }
