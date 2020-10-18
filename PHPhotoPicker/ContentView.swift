@@ -86,8 +86,20 @@ struct ContentView: View {
 }
 
 struct ContentView_Previews: PreviewProvider {
+    
     static var previews: some View {
-        ContentView()
+        ContentView(showSheet: false, selectedImage: image(), date: Date(), region: MKCoordinateRegion(
+                        center: CLLocationCoordinate2D(
+                            latitude: 20.0,
+                            longitude: 20.0),
+                        latitudinalMeters: .init(10000),
+                        longitudinalMeters: .init(10000)))
+    }
+    static func image(_ size: CGSize = CGSize(width: 1, height: 1)) -> UIImage {
+        return UIGraphicsImageRenderer(size: size).image { rendererContext in
+            UIColor.orange.setFill()
+            rendererContext.fill(CGRect(origin: .zero, size: size))
+        }
     }
 }
 
