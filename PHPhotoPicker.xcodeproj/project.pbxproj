@@ -11,6 +11,7 @@
 		DCAA51A0253B0D26009B778B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCAA519F253B0D26009B778B /* ContentView.swift */; };
 		DCAA51A2253B0D28009B778B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DCAA51A1253B0D28009B778B /* Assets.xcassets */; };
 		DCAA51A5253B0D28009B778B /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DCAA51A4253B0D28009B778B /* Preview Assets.xcassets */; };
+		DCAA51AE253B0E5C009B778B /* CustomPhotoPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCAA51AD253B0E5C009B778B /* CustomPhotoPickerView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -20,6 +21,7 @@
 		DCAA51A1253B0D28009B778B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DCAA51A4253B0D28009B778B /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		DCAA51A6253B0D28009B778B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DCAA51AD253B0E5C009B778B /* CustomPhotoPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPhotoPickerView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,6 +59,7 @@
 				DCAA51A1253B0D28009B778B /* Assets.xcassets */,
 				DCAA51A6253B0D28009B778B /* Info.plist */,
 				DCAA51A3253B0D28009B778B /* Preview Content */,
+				DCAA51AD253B0E5C009B778B /* CustomPhotoPickerView.swift */,
 			);
 			path = PHPhotoPicker;
 			sourceTree = "<group>";
@@ -139,6 +142,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DCAA51A0253B0D26009B778B /* ContentView.swift in Sources */,
+				DCAA51AE253B0E5C009B778B /* CustomPhotoPickerView.swift in Sources */,
 				DCAA519E253B0D26009B778B /* PHPhotoPickerApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
